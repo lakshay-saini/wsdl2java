@@ -8,80 +8,102 @@
     <artifactId>wsdl2java</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
     <properties>
         <java.version>1.8</java.version>
         <plugin.maven.compiler.version>3.7.0</plugin.maven.compiler.version>
+        <packageName>stubs</packageName>
+        <sourceDestDir>${project.basedir}/src/main/java/</sourceDestDir>
+        <wsdl.url>http://ws.karveinformatica.com:186/DemoKarveWeb5/soap/RentaCarWebPagePort?wsdl</wsdl.url>
+        <wsdl.path>${project.basedir}/src/main/java/resources</wsdl.path>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>url</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>jaxws-maven-plugin</artifactId>
+                        <version>2.4.1</version>
+                        <executions>
+                            <execution>
+                                <id>wsdltoJava</id>
+                                <goals>
+                                    <goal>wsimport</goal>
+                                </goals>
+                                <configuration>
+                                    <wsdlUrls>
+                                        <wsdlUrl>${wsdl.url}</wsdlUrl>
+                                    </wsdlUrls>
+                                    <vmArgs>
+                                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                                    </vmArgs>
+                                    <keep>true</keep>
+                                    <packageName>${packageName}</packageName>
+                                    <sourceDestDir>${sourceDestDir}</sourceDestDir>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
 
-    <build>
-        <plugins>
-
-<!--        'JAX-WS' Maven plugin to parse a WSDL URL-->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>2.4.1</version>
-                <executions>
-                    <execution>
-                        <id>wsdltoJava</id>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>${plugin.maven.compiler.version}</version>
                         <configuration>
-                            <wsdlUrls>
-                                <wsdlUrl>http://ws.karveinformatica.com:186/DemoKarveWeb5/soap/RentaCarWebPagePort?wsdl</wsdlUrl>
-                            </wsdlUrls>
-                            <vmArgs>
-                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-                            </vmArgs>
-                            <keep>true</keep>
-                            <packageName>stubs</packageName>
-                            <sourceDestDir>${project.basedir}/src/main/java/</sourceDestDir>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 
+        <profile>
+            <id>path</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>jaxws-maven-plugin</artifactId>
+                        <version>2.4.1</version>
+                        <executions>
+                            <execution>
+                                <id>wsdltoJava</id>
+                                <goals>
+                                    <goal>wsimport</goal>
+                                </goals>
+                                <configuration>
+                                    <wsdlDirectory>${wsdl.path}</wsdlDirectory>
+                                    <wsdlFiles>
+                                        <wsdlFile>${wsdl.path}</wsdlFile>
+                                    </wsdlFiles>
+                                    <vmArgs>
+                                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                                    </vmArgs>
+                                    <keep>true</keep>
+                                    <packageName>${packageName}</packageName>
+                                    <sourceDestDir>${sourceDestDir}</sourceDestDir>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>${plugin.maven.compiler.version}</version>
+                        <configuration>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
-<!--           'JAX-WS' Maven plugin to parse a WSDL File-->
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>jaxws-maven-plugin</artifactId>-->
-<!--                <version>2.4.1</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>wsdltoJava</id>-->
-<!--                        <goals>-->
-<!--                            <goal>wsimport</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <wsdlDirectory>[WSDL_FILE_PATH]</wsdlDirectory>-->
-<!--                            <wsdlFiles>-->
-<!--                                <wsdlFile>[WSDL_FILE_NAME]</wsdlFile>-->
-<!--                            </wsdlFiles>-->
-<!--                            <vmArgs>-->
-<!--                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>-->
-<!--                            </vmArgs>-->
-<!--                            <keep>true</keep>-->
-<!--                            <packageName>[PACKAGE_NAME]</packageName>-->
-<!--                            <sourceDestDir>[SOURCE_DIRECTORY]</sourceDestDir>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${plugin.maven.compiler.version}</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
