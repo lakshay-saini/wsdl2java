@@ -14,7 +14,7 @@
         <packageName>stubs</packageName>
         <sourceDestDir>${project.basedir}/src/main/java/</sourceDestDir>
         <wsdl.url>http://ws.karveinformatica.com:186/DemoKarveWeb5/soap/RentaCarWebPagePort?wsdl</wsdl.url>
-        <wsdl.path>${project.basedir}/src/main/java/resources</wsdl.path>
+        <wsdl.path>${project.basedir}/src/main/resources</wsdl.path>
         <wsdl.file>test.xsd</wsdl.file>
     </properties>
 
