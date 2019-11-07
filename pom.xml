@@ -15,6 +15,7 @@
         <sourceDestDir>${project.basedir}/src/main/java/</sourceDestDir>
         <wsdl.url>http://ws.karveinformatica.com:186/DemoKarveWeb5/soap/RentaCarWebPagePort?wsdl</wsdl.url>
         <wsdl.path>${project.basedir}/src/main/java/resources</wsdl.path>
+        <wsdl.file>test.xsd</wsdl.file>
     </properties>
 
     <profiles>
@@ -78,9 +79,9 @@
                                     <goal>wsimport</goal>
                                 </goals>
                                 <configuration>
-                                    <wsdlDirectory>${wsdl.path}</wsdlDirectory>
+                                    <wsdlDirectory>${wsdl.path}/</wsdlDirectory>
                                     <wsdlFiles>
-                                        <wsdlFile>${wsdl.path}</wsdlFile>
+                                        <wsdlFile>${wsdl.path}/${wsdl.file}</wsdlFile>
                                     </wsdlFiles>
                                     <vmArgs>
                                         <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
